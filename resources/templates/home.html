@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check Dat Chicken</title>
+</head>
+
+
+    <h1 >Check Dat Chicken</h1>
+    <h6>...and other kitchen items</h6>
+    <form  action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+    <form action="/addFood" method="post">
+        <input type="text" name="foodItem" placeholder="Enter your item"/>
+        <button>Submit</button>
+    </form>
+
+{{#food}}
+<div>
+    {{name}}
+
+    <form style='display:inline-block;' action="/delete" method="post">
+        <button type="submit">Delete</button>
+        <input type="hidden" name="id" value="{{id}}"/>
+
+    </form>
+    <form style="display: inline-block;" action="/edit-text">
+        <button type="submit">Update</button>
+        <input type="hidden" name="id" value="{{id}}"/>
+    </form>
+
+</div>
+{{/food}}
+
+</body>
+</html>
