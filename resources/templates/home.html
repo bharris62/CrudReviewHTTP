@@ -7,7 +7,7 @@
 </head>
 
 
-<h1 >Check Dat Chicken</h1>
+<h1 >Check Dat Chicken, {{name}}</h1>
 <h6>...and other kitchen items</h6>
 <form  action="/logout" method="post">
     <button type="submit">Logout</button>
@@ -16,10 +16,11 @@
     <input type="text" name="foodItem" placeholder="Enter your item"/>
     <button>Submit</button>
 </form>
-
+<ol>
 {{#food}}
+
 <div>
-    {{name}}
+    <li><h3>{{name}} - {{date}}
 
     <form style='display:inline-block;' action="/delete" method="post">
         <button type="submit">Delete</button>
@@ -29,10 +30,11 @@
     <form style="display: inline-block;" action="/edit-text">
         <button type="submit">Update</button>
         <input type="hidden" name="id" value="{{id}}"/>
-    </form>
+    </form></h3></li>
 
 </div>
 {{/food}}
+</ol>
 
 </body>
 </html>
