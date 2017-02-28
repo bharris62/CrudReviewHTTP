@@ -3,7 +3,6 @@ import spark.Session;
 import spark.Spark;
 import spark.template.mustache.MustacheTemplateEngine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
@@ -45,7 +44,7 @@ public class Main {
             }
 
             String foodItem = request.queryParams("foodItem");
-            FoodItem item = new FoodItem(users.get(name).food.size(), foodItem);
+            FoodItem item = new FoodItem(counter++, foodItem);
             users.get(name).food.add(item);
             response.redirect("/");
             return "";
@@ -60,12 +59,12 @@ public class Main {
 
         Spark.post("/delete", (request, response) -> {
             String toDelete = request.queryParams("id");
-            int delete = Integer.parseInt(toDelete);
+            int deleteNum = Integer.parseInt(toDelete);
             Session session = request.session();
             String name = session.attribute("userName");
             User user = users.get(name);
             for (FoodItem i : user.food) {
-                if(i.id == delete) {
+                if(i.id == deleteNum) {
                     user.food.remove(i);
                     response.redirect("/");
                     return "";
@@ -78,7 +77,6 @@ public class Main {
             Session session = request.session();
             int id = Integer.parseInt(request.queryParams("id"));
             session.attribute("idNum", id);
-            HashMap m = new HashMap();
             String name = session.attribute("userName");
             User user = users.get(name);
             return new ModelAndView(user, "edit.html");
@@ -92,8 +90,16 @@ public class Main {
             System.out.println(id);
             String name = session.attribute("userName");
             User user = users.get(name);
-            FoodItem food = new FoodItem(users.get(name).food.size(), newText);
-            user.food.set(id, food);
+            FoodItem food = new FoodItem(counter++, newText);
+            int count = 0;
+            for (FoodItem i : user.food) {
+                if(i.id == id) {
+                    user.food.set(count, food);
+                    response.redirect("/");
+                    return "";
+                }
+                count++;
+            }
             response.redirect("/");
             return "";
         });
